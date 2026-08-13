@@ -3,6 +3,7 @@
 <style>
   body{font-family:"Segoe UI",-apple-system,sans-serif;background:#fff;color:#1a1a1a;margin:0;padding:24px;}
   h1{font-size:20px;margin:0 0 4px;}
+  h2{font-size:15px;margin:28px 0 10px;padding-top:18px;border-top:1px solid #eee;}
   .meta{color:#767676;font-size:12px;margin-bottom:18px;}
   .tabs{display:flex;gap:6px;border-bottom:1px solid #eee;margin-bottom:16px;flex-wrap:wrap;}
   .tab{background:none;border:none;border-bottom:2px solid transparent;padding:9px 4px;margin-bottom:-1px;
@@ -19,9 +20,18 @@
 </style></head>
 <body>
   <h1>Mahjong Leaderboard</h1>
-  <div class="meta">Last updated: 2026-08-13T22:51:05</div>
-  <div class="tabs"><button class="tab active" data-panel="panel-0">初賽 <span class="tab-count">48</span></button><button class="tab" data-panel="panel-1">外圍賽 <span class="tab-count">0</span></button><button class="tab" data-panel="panel-2">準決賽 <span class="tab-count">0</span></button><button class="tab" data-panel="panel-3">決賽 <span class="tab-count">0</span></button></div>
+  <div class="meta">Last updated: 2026-08-13T23:45:21</div>
+  <div class="tabs"><button class="tab active" data-panel="panel-0">外圍賽 <span class="tab-count">4</span></button><button class="tab" data-panel="panel-1">初賽 <span class="tab-count">48</span></button><button class="tab" data-panel="panel-2">準決賽 <span class="tab-count">0</span></button><button class="tab" data-panel="panel-3">決賽 <span class="tab-count">0</span></button></div>
   <div class="panel active" id="panel-0"><table>
+    <thead><tr><th>Rank</th><th>Reg #</th><th>Score</th><th># of Fans</th><th># of Wins</th><th># of Lose</th><th>Team Name</th></tr></thead>
+    <tbody><tr><td>1</td><td>69</td><td class="pos">80</td><td>8</td><td>1</td><td>0</td><td>Keep It PG</td></tr>
+<tr><td>2</td><td>71</td><td class="pos">20</td><td>2</td><td>1</td><td>0</td><td>Keep It PG</td></tr>
+<tr><td>3</td><td>76</td><td class="neg">-20</td><td>0</td><td>0</td><td>1</td><td>Keep It PG</td></tr>
+<tr><td>4</td><td>70</td><td class="neg">-80</td><td>0</td><td>0</td><td>1</td><td>Keep It PG</td></tr></tbody>
+  </table><h2>Team Leaderboard</h2><table>
+    <thead><tr><th>Rank</th><th>Team Name</th><th>Avg Score</th><th>Members</th></tr></thead>
+    <tbody><tr><td>1</td><td>Keep It PG</td><td>0.0</td><td>4</td></tr></tbody>
+  </table></div><div class="panel" id="panel-1"><table>
     <thead><tr><th>Rank</th><th>Reg #</th><th>Score</th><th># of Fans</th><th># of Wins</th><th># of Lose</th><th>Team Name</th></tr></thead>
     <tbody><tr><td>1</td><td>25</td><td class="pos">260</td><td>31</td><td>4</td><td>2</td><td></td></tr>
 <tr><td>2</td><td>31</td><td class="pos">255</td><td>30</td><td>5</td><td>4</td><td></td></tr>
@@ -30,22 +40,22 @@
 <tr><td>3</td><td>9</td><td class="pos">250</td><td>30</td><td>4</td><td>2</td><td></td></tr>
 <tr><td>3</td><td>17</td><td class="pos">250</td><td>30</td><td>4</td><td>2</td><td></td></tr>
 <tr><td>7</td><td>15</td><td class="pos">245</td><td>33</td><td>5</td><td>4</td><td></td></tr>
-<tr><td>8</td><td>10</td><td class="pos">245</td><td>30</td><td>5</td><td>1</td><td></td></tr>
+<tr><td>8</td><td>10</td><td class="pos">245</td><td>30</td><td>5</td><td>1</td><td>小柒李團隊</td></tr>
 <tr><td>9</td><td>33</td><td class="pos">230</td><td>28</td><td>4</td><td>2</td><td></td></tr>
 <tr><td>10</td><td>46</td><td class="pos">215</td><td>30</td><td>4</td><td>1</td><td></td></tr>
 <tr><td>11</td><td>45</td><td class="pos">215</td><td>30</td><td>4</td><td>2</td><td></td></tr>
 <tr><td>12</td><td>29</td><td class="pos">210</td><td>30</td><td>4</td><td>2</td><td></td></tr>
 <tr><td>13</td><td>37</td><td class="pos">200</td><td>25</td><td>4</td><td>2</td><td></td></tr>
-<tr><td>14</td><td>41</td><td class="pos">180</td><td>23</td><td>4</td><td>2</td><td></td></tr>
+<tr><td>14</td><td>41</td><td class="pos">180</td><td>23</td><td>4</td><td>2</td><td>臨時睇波</td></tr>
 <tr><td>15</td><td>13</td><td class="pos">170</td><td>30</td><td>4</td><td>2</td><td></td></tr>
 <tr><td>16</td><td>3</td><td class="pos">75</td><td>16</td><td>5</td><td>4</td><td></td></tr>
 <tr><td>16</td><td>19</td><td class="pos">75</td><td>16</td><td>5</td><td>4</td><td></td></tr>
 <tr><td>16</td><td>27</td><td class="pos">75</td><td>16</td><td>5</td><td>4</td><td></td></tr>
-<tr><td>16</td><td>35</td><td class="pos">75</td><td>16</td><td>5</td><td>4</td><td></td></tr>
+<tr><td>16</td><td>35</td><td class="pos">75</td><td>16</td><td>5</td><td>4</td><td>開胡</td></tr>
 <tr><td>16</td><td>39</td><td class="pos">75</td><td>16</td><td>5</td><td>4</td><td></td></tr>
 <tr><td>16</td><td>43</td><td class="pos">75</td><td>16</td><td>5</td><td>4</td><td></td></tr>
-<tr><td>22</td><td>21</td><td class="pos">70</td><td>28</td><td>4</td><td>2</td><td></td></tr>
-<tr><td>23</td><td>6</td><td class="pos">35</td><td>32</td><td>5</td><td>4</td><td></td></tr>
+<tr><td>22</td><td>21</td><td class="pos">70</td><td>28</td><td>4</td><td>2</td><td>Wallaby</td></tr>
+<tr><td>23</td><td>6</td><td class="pos">35</td><td>32</td><td>5</td><td>4</td><td>MLM (麻甩佬)</td></tr>
 <tr><td>24</td><td>42</td><td class="pos">15</td><td>23</td><td>5</td><td>4</td><td></td></tr>
 <tr><td>25</td><td>23</td><td class="pos">15</td><td>14</td><td>4</td><td>4</td><td></td></tr>
 <tr><td>26</td><td>38</td><td class="neg">-5</td><td>23</td><td>5</td><td>4</td><td></td></tr>
@@ -58,20 +68,20 @@
 <tr><td>33</td><td>30</td><td class="neg">-95</td><td>23</td><td>5</td><td>4</td><td></td></tr>
 <tr><td>34</td><td>11</td><td class="neg">-95</td><td>16</td><td>5</td><td>5</td><td></td></tr>
 <tr><td>34</td><td>47</td><td class="neg">-95</td><td>16</td><td>5</td><td>5</td><td></td></tr>
-<tr><td>36</td><td>14</td><td class="neg">-145</td><td>23</td><td>5</td><td>4</td><td></td></tr>
-<tr><td>37</td><td>24</td><td class="neg">-200</td><td>30</td><td>3</td><td>4</td><td></td></tr>
-<tr><td>38</td><td>4</td><td class="neg">-420</td><td>8</td><td>2</td><td>4</td><td></td></tr>
+<tr><td>36</td><td>14</td><td class="neg">-145</td><td>23</td><td>5</td><td>4</td><td>小柒李團隊</td></tr>
+<tr><td>37</td><td>24</td><td class="neg">-200</td><td>30</td><td>3</td><td>4</td><td>Wallaby</td></tr>
+<tr><td>38</td><td>4</td><td class="neg">-420</td><td>8</td><td>2</td><td>4</td><td>MLM (麻甩佬)</td></tr>
 <tr><td>38</td><td>8</td><td class="neg">-420</td><td>8</td><td>2</td><td>4</td><td></td></tr>
-<tr><td>38</td><td>16</td><td class="neg">-420</td><td>8</td><td>2</td><td>4</td><td></td></tr>
+<tr><td>38</td><td>16</td><td class="neg">-420</td><td>8</td><td>2</td><td>4</td><td>小柒李團隊</td></tr>
 <tr><td>38</td><td>20</td><td class="neg">-420</td><td>8</td><td>2</td><td>4</td><td></td></tr>
 <tr><td>38</td><td>28</td><td class="neg">-420</td><td>8</td><td>2</td><td>4</td><td></td></tr>
 <tr><td>38</td><td>36</td><td class="neg">-420</td><td>8</td><td>2</td><td>4</td><td></td></tr>
 <tr><td>38</td><td>40</td><td class="neg">-420</td><td>8</td><td>2</td><td>4</td><td></td></tr>
 <tr><td>38</td><td>44</td><td class="neg">-420</td><td>8</td><td>2</td><td>4</td><td></td></tr>
-<tr><td>46</td><td>48</td><td class="neg">-485</td><td>9</td><td>3</td><td>6</td><td></td></tr>
+<tr><td>46</td><td>48</td><td class="neg">-485</td><td>9</td><td>3</td><td>6</td><td>Fung Shui Masters</td></tr>
 <tr><td>47</td><td>32</td><td class="neg">-520</td><td>8</td><td>2</td><td>4</td><td></td></tr>
-<tr><td>48</td><td>12</td><td class="neg">-550</td><td>8</td><td>2</td><td>6</td><td></td></tr></tbody>
-  </table></div><div class="panel" id="panel-1"><div class="empty">No data yet for this stage.</div></div><div class="panel" id="panel-2"><div class="empty">No data yet for this stage.</div></div><div class="panel" id="panel-3"><div class="empty">No data yet for this stage.</div></div>
+<tr><td>48</td><td>12</td><td class="neg">-550</td><td>8</td><td>2</td><td>6</td><td>小柒李團隊</td></tr></tbody>
+  </table></div><div class="panel" id="panel-2"><div class="empty">No data yet for this stage.</div></div><div class="panel" id="panel-3"><div class="empty">No data yet for this stage.</div></div>
   <script>
     document.querySelectorAll('.tab').forEach(btn => {
       btn.addEventListener('click', () => {

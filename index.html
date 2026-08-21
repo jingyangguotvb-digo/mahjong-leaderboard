@@ -23,7 +23,7 @@
 </style></head>
 <body>
   <h1>TVB Mahjong Brain Fitness Championship 2026 – USA Competition Leaderboard<span class="zh">TVB麻將健腦大賽2026 — 美國站比賽排行榜</span></h1>
-  <div class="meta">Last updated: Aug 21, 2026 2:56 PM PDT</div>
+  <div class="meta">Last updated: Aug 21, 2026 3:04 PM PDT</div>
   <div class="tabs"><button class="tab active" data-panel="panel-0">Qualifying Rounds 外圍賽 <span class="tab-count">0</span></button><button class="tab" data-panel="panel-1">Preliminary Rounds 初賽 <span class="tab-count">48</span></button><button class="tab" data-panel="panel-2">Semi-Final 準決賽 <span class="tab-count">0</span></button><button class="tab" data-panel="panel-3">Final 決賽 <span class="tab-count">0</span></button></div>
   <div class="panel active" id="panel-0"><div class="empty">No data yet for this stage.</div><h2>Team Leaderboard</h2><div class="empty">No team has 4+ scored members yet — teams need at least 4 people to appear here.</div></div><div class="panel" id="panel-1"><table>
     <thead><tr>
@@ -93,5 +93,20 @@
         document.getElementById(btn.dataset.panel).classList.add('active');
       });
     });
+
+    // Tell whoever's framing this page (e.g. a WordPress iframe embed) how
+    // tall the content actually is, so the parent page can resize the
+    // iframe to fit instead of showing its own inner scrollbar. Harmless
+    // no-op when this page isn't embedded in anything — postMessage with no
+    // listener on the other end just goes nowhere.
+    function reportHeight() {
+      window.parent.postMessage(
+        { type: 'mahjong-leaderboard-height', height: document.documentElement.scrollHeight }, '*'
+      );
+    }
+    window.addEventListener('load', reportHeight);
+    window.addEventListener('resize', reportHeight);
+    document.querySelectorAll('.tab').forEach(btn => btn.addEventListener('click', () => setTimeout(reportHeight, 0)));
+    new ResizeObserver(reportHeight).observe(document.body);
   </script>
 </body></html>

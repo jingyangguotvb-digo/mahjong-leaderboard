@@ -1,198 +1,313 @@
 <!doctype html>
-<html><head><meta charset="utf-8"><title>TVB Mahjong Brain Fitness Championship 2026 – USA Competition Leaderboard</title>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>TVB Mahjong Brain Fitness Championship 2026 – USA Competition Leaderboard</title>
 <style>
-  body{font-family:"Segoe UI",-apple-system,sans-serif;background:#fff;color:#1a1a1a;margin:0;padding:24px;}
-  h1{font-size:20px;margin:0 0 4px;}
-  h1 .zh{display:block;font-size:15px;font-weight:600;color:#4a4a4a;margin-top:2px;}
-  h2{font-size:15px;margin:28px 0 10px;padding-top:18px;border-top:1px solid #eee;}
-  .meta{color:#767676;font-size:12px;margin-bottom:18px;}
-  .tabs{display:flex;gap:6px;border-bottom:1px solid #eee;margin-bottom:16px;flex-wrap:wrap;}
-  .tab{background:none;border:none;border-bottom:2px solid transparent;padding:9px 4px;margin-bottom:-1px;
-        font-size:13.5px;font-weight:600;color:#767676;cursor:pointer;font-family:inherit;}
-  .tab.active{color:#1a1a1a;border-bottom-color:#c81e28;}
-  .tab-count{color:#a0a0a0;font-weight:400;font-size:12px;}
+  :root{
+    --ink:#1b1b1d; --ink-soft:#56565c; --ink-faint:#8b8b93;
+    --line:#e6e4e1; --line-soft:#f1efec; --surface:#ffffff;
+    --accent:#2f7a36; --accent-soft:#e4f4e5;
+    --zebra:#e7f3e8; --green:#2f7a36; --loss:#c4314b;
+    --gold:#d4af37; --silver:#a8adb3; --bronze:#c0803f;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0; background:var(--surface); color:var(--ink);
+    font-family:"Segoe UI","PingFang TC","Microsoft JhengHei",-apple-system,BlinkMacSystemFont,sans-serif;
+    font-size:14px; line-height:1.45; -webkit-font-smoothing:antialiased;
+  }
+  .sr-only{
+    position:absolute; width:1px; height:1px; padding:0; margin:-1px;
+    overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap; border:0;
+  }
+  .wrap{max-width:1080px; margin:0 auto; padding:0 20px 36px;}
+
+  .masthead{margin:0 -20px 22px;}
+  .masthead img{display:block; width:100%; height:auto;}
+
+  /* Individual / Team switch */
+  .toggle-row{text-align:center; margin:0 0 22px;}
+  .view-toggle{
+    display:inline-flex; gap:4px; padding:4px;
+    background:var(--line-soft); border-radius:999px;
+  }
+  .vt{
+    display:flex; align-items:baseline; gap:6px; border:none; cursor:pointer;
+    background:none; font-family:inherit; font-size:14px; font-weight:650; color:var(--ink-soft);
+    padding:8px 22px; border-radius:999px; transition:background .15s, color .15s;
+  }
+  .vt .vt-zh{font-size:12.5px; font-weight:600; opacity:.75;}
+  .vt:hover{color:var(--ink);}
+  .vt.active{background:var(--accent); color:#fff; box-shadow:0 1px 3px rgba(47,122,54,.35);}
+  .vt.active .vt-zh{opacity:.9;}
+
+  .view{display:none;}
+  .view.active{display:block;}
+
+  /* Stage tabs — four equal columns spanning the full width */
+  .tabs{display:flex; border-bottom:1px solid var(--line);}
+  .tab{
+    flex:1 1 0; min-width:0;
+    display:flex; align-items:center; justify-content:center; gap:7px;
+    background:none; border:none; cursor:pointer;
+    font-family:inherit; padding:0 8px 11px; margin-bottom:-1px;
+    border-bottom:2.5px solid transparent; color:var(--ink-faint);
+  }
+  .tab-label{display:block; text-align:center; font-size:14px; font-weight:650; line-height:1.25;}
+  .tab-zh{display:block; font-size:12px; font-weight:500; opacity:.85;}
+  .tab-badge{
+    font-size:11.5px; font-weight:700; color:var(--ink-faint);
+    background:var(--line-soft); border-radius:999px; padding:2px 8px;
+  }
+  .tab-lock{font-size:11px; opacity:.55;}
+  .tab:hover:not(.locked){color:var(--ink-soft);}
+  .tab.active{color:var(--ink); border-bottom-color:var(--accent);}
+  .tab.active .tab-badge{background:var(--accent-soft); color:var(--accent);}
+  .tab.locked{cursor:not-allowed; opacity:.5;}
+
+  .note{font-size:12.5px; color:var(--ink-faint); margin:12px 0 0;}
+  .note strong{color:var(--ink-soft); font-weight:650;}
+
   .panel{display:none;}
   .panel.active{display:block;}
-  .empty{color:#a0a0a0;font-size:13.5px;padding:24px 0;}
-  table{width:100%;border-collapse:collapse;font-size:13.5px;}
-  th{text-align:left;color:#767676;font-size:12.5px;padding:6px 10px;border-bottom:2px solid #eee;}
-  th .th-zh{display:block;font-size:11.5px;font-weight:400;color:#a0a0a0;margin-top:1px;}
-  td{padding:7px 10px;border-bottom:1px solid #f2f2f2;font-variant-numeric:tabular-nums;}
-  tbody tr:nth-child(even){background:#e7f3e8;}
-  .pos{color:#3f7d3a;font-weight:600;} .neg{color:#c4314b;font-weight:600;} .zero{color:#767676;}
+
+  /* Tables */
+  .table-wrap{overflow-x:auto; margin-top:18px;}
+  table{width:100%; border-collapse:collapse; font-size:13.5px; min-width:640px;}
+  th{
+    text-align:left; color:var(--ink-soft); font-size:12.5px; font-weight:650;
+    padding:0 12px 9px; border-bottom:1.5px solid var(--line); white-space:nowrap; vertical-align:bottom;
+  }
+  th .th-zh{display:block; font-size:11.5px; font-weight:400; color:var(--ink-faint); margin-top:1px;}
+  td{padding:9px 12px; border-bottom:1px solid var(--line-soft); font-variant-numeric:tabular-nums;}
+  tbody tr:nth-child(even){background:var(--zebra);}
+  tbody tr:hover{background:#dcecdd;}
+  th.num, td.num{text-align:right;}
+  /* Rank and Participant No. centre in both tables; Team Name only centres
+     in the individual table, where it's a trailing detail column — in the
+     team table it's the row's own label and stays left-aligned. */
+  .c-rank{width:64px; text-align:center;}
+  .c-id{width:96px; color:var(--ink-soft); text-align:center;}
+  table.individual .c-team{text-align:center;}
+  .c-name{font-weight:600;}
+  .c-team{white-space:nowrap;}
+  .muted{color:var(--ink-faint); font-weight:400;}
+  .score{font-weight:700;}
+  .pos{color:var(--green);} .neg{color:var(--loss);} .zero{color:var(--ink-soft);}
+  .members{white-space:nowrap;}
+  .c-qual{white-space:nowrap;}
+  .qual{display:inline-flex; align-items:baseline; gap:5px; font-size:12px; font-weight:650;}
+  .qual .qual-zh{font-size:11px; font-weight:500; opacity:.85;}
+  .qual.yes{
+    background:#e4f4e5; color:var(--green); border:1px solid #bfe3c2;
+    padding:2px 9px; border-radius:999px;
+  }
+  .qual.no{color:var(--ink-faint); font-weight:500;}
+  tr.unranked td{color:var(--ink-faint);}
+  tr.unranked .c-team{font-weight:400;}
+
+  .rank-plain{display:inline-block; min-width:22px; font-weight:650; color:var(--ink-soft);}
+  .medal{
+    display:inline-flex; align-items:center; justify-content:center;
+    width:23px; height:23px; border-radius:50%; font-size:12px; font-weight:800; color:#fff;
+  }
+  .medal-1{background:var(--gold); color:#4a3708; box-shadow:0 1px 2px rgba(212,175,55,.5);}
+  .medal-2{background:var(--silver); color:#2f3237;}
+  .medal-3{background:var(--bronze);}
+
+  .empty{
+    text-align:center; padding:56px 20px; color:var(--ink-faint);
+    border:1px dashed var(--line); border-radius:10px; margin-top:18px;
+  }
+  .empty-icon{font-size:22px; margin-bottom:8px; opacity:.6;}
+  .empty-title{font-size:14.5px; font-weight:650; color:var(--ink-soft);}
+  .empty-sub{font-size:12.5px; margin-top:4px;}
+
+  .meta{
+    margin-top:26px; padding-top:14px; border-top:1px solid var(--line-soft);
+    font-size:12px; color:var(--ink-faint);
+  }
+
+  @media (max-width:640px){
+    .wrap{padding:0 14px 28px;}
+    .masthead{margin:0 -14px 18px;}
+
+    /* Full-width two-up switch, English stacked over Chinese. Side by side
+       they overflow a phone and the Chinese breaks mid-word (個人排/名). */
+    .view-toggle{display:flex; width:100%; border-radius:12px;}
+    .vt{
+      flex:1 1 0; min-width:0; flex-direction:column; align-items:center; gap:1px;
+      padding:9px 6px; font-size:13.5px; border-radius:9px; white-space:nowrap;
+    }
+    .vt .vt-zh{font-size:11.5px;}
+
+    /* Four underline tabs can't fit across a phone, and wrapping them left a
+       ragged strip with a broken underline. Become a 2x2 grid of equal-height
+       cards instead — tidier, and a much bigger tap target. */
+    .tabs{
+      display:grid; grid-template-columns:1fr 1fr; grid-auto-rows:1fr;
+      gap:8px; border-bottom:none;
+    }
+    .tab{
+      padding:10px 8px; margin-bottom:0; gap:5px;
+      border:1px solid var(--line); border-radius:9px;
+    }
+    .tab-label{font-size:12.5px;}
+    .tab-zh{font-size:11px;}
+    .tab.active{background:var(--accent-soft); border-color:var(--accent);}
+    .tab.locked{background:#fbfbfa;}
+  }
 </style></head>
 <body>
-  <h1>TVB Mahjong Brain Fitness Championship 2026 – USA Competition Leaderboard<span class="zh">TVB麻將健腦大賽2026 — 美國站比賽排行榜</span></h1>
-  <div class="meta">Last updated: Sep 14, 2026 4:42 PM PDT</div>
-  <div class="tabs"><button class="tab active" data-panel="panel-0">Qualifying Rounds 外圍賽 <span class="tab-count">64</span></button><button class="tab" data-panel="panel-1">Preliminary Rounds 初賽 <span class="tab-count">16</span></button><button class="tab" data-panel="panel-2">Semi-Final 準決賽 <span class="tab-count">16</span></button><button class="tab" data-panel="panel-3">Final 決賽 <span class="tab-count">16</span></button></div>
-  <div class="panel active" id="panel-0"><table>
+  <h1 class="sr-only">TVB Mahjong Brain Fitness Championship 2026 – USA Competition Leaderboard / TVB麻將健腦大賽2026 — 美國站比賽排行榜</h1>
+
+  <div class="wrap">
+    <header class="masthead">
+      <img src="https://tvbaw-blog.s3.us-west-1.amazonaws.com/tvbusa/wp-content/uploads/2026/09/17101652/mahjong-header.png"
+           alt="TVB Mahjong Brain Fitness Championship 2026 — USA Competition Leaderboard">
+    </header>
+
+    <div class="toggle-row">
+      <div class="view-toggle">
+        <button class="vt active" data-view="view-individual">Individual Ranking<span class="vt-zh">個人排名</span></button>
+        <button class="vt" data-view="view-team">Team Ranking<span class="vt-zh">團隊排名</span></button>
+      </div>
+    </div>
+
+    <section class="view active" id="view-individual">
+      <div class="tabs"><button class="tab active" data-panel="panel-0"><span class="tab-label">Qualifying Rounds<span class="tab-zh">外圍賽</span></span></button><button class="tab locked" data-panel="panel-1" disabled title="Opens after Oct 19"><span class="tab-lock" aria-hidden="true">&#128274;</span><span class="tab-label">Preliminary Rounds<span class="tab-zh">初賽</span></span><span class="tab-badge">96</span></button><button class="tab locked" data-panel="panel-2" disabled title="Opens after Oct 19"><span class="tab-lock" aria-hidden="true">&#128274;</span><span class="tab-label">Semi-Final<span class="tab-zh">準決賽</span></span><span class="tab-badge">24</span></button><button class="tab locked" data-panel="panel-3" disabled title="Opens after Oct 19"><span class="tab-lock" aria-hidden="true">&#128274;</span><span class="tab-label">Final<span class="tab-zh">決賽</span></span><span class="tab-badge">4</span></button></div>
+      <p class="note">Preliminary Rounds, Semi-Final and Final open after Oct 19. The number on a stage is how many players advance into it. The <strong>Qualified</strong> column stays empty until every player has finished their games and the cut is confirmed.</p>
+      <div class="panel active" id="panel-0"><div class="table-wrap"><table class="individual">
     <thead><tr>
-      <th>Rank<span class="th-zh">排名</span></th>
-      <th>Participant No.<span class="th-zh">參賽編號</span></th>
-      <th>Name<span class="th-zh">姓名</span></th>
-      <th>Total Score<span class="th-zh">總分</span></th>
-      <th>Total Fan<span class="th-zh">累積番數</span></th>
-      <th># of Wins<span class="th-zh">胡牌次數</span></th>
-      <th># of Deal-ins<span class="th-zh">出銃次數</span></th>
-      <th>Team Name<span class="th-zh">團隊名稱</span></th>
+      <th class="c-rank">Rank<span class="th-zh">排名</span></th>
+      <th class="c-id">Participant No.<span class="th-zh">參賽編號</span></th>
+      <th class="c-name">Name<span class="th-zh">姓名</span></th>
+      <th class="num">Total Score<span class="th-zh">總分</span></th>
+      <th class="num">Total Fan<span class="th-zh">累積番數</span></th>
+      <th class="num"># of Wins<span class="th-zh">胡牌次數</span></th>
+      <th class="num"># of Deal-ins<span class="th-zh">出銃次數</span></th>
+      <th class="c-team">Team Name<span class="th-zh">團隊名稱</span></th>
+      <th class="c-qual">Qualified<span class="th-zh">晉級</span></th>
     </tr></thead>
-    <tbody><tr><td>1</td><td>10</td><td>Meng</td><td class="pos">280</td><td>30</td><td>4</td><td>3</td><td>LAM Birdies</td></tr>
-<tr><td>2</td><td>26</td><td>cheuk</td><td class="pos">180</td><td>17</td><td>3</td><td>4</td><td></td></tr>
-<tr><td>3</td><td>43</td><td>Chan</td><td class="pos">160</td><td>20</td><td>4</td><td>4</td><td></td></tr>
-<tr><td>4</td><td>51</td><td>Chan</td><td class="pos">160</td><td>17</td><td>5</td><td>0</td><td></td></tr>
-<tr><td>5</td><td>40</td><td>Lai</td><td class="pos">105</td><td>14</td><td>3</td><td>2</td><td></td></tr>
-<tr><td>6</td><td>33</td><td>Li</td><td class="pos">95</td><td>22</td><td>4</td><td>4</td><td></td></tr>
-<tr><td>7</td><td>2</td><td>CHOI</td><td class="pos">95</td><td>12</td><td>3</td><td>2</td><td></td></tr>
-<tr><td>8</td><td>49</td><td>Jr.</td><td class="pos">90</td><td>9</td><td>1</td><td>1</td><td>Fung Shui Masters</td></tr>
-<tr><td>9</td><td>56</td><td>Michael</td><td class="pos">75</td><td>7</td><td>2</td><td>0</td><td></td></tr>
-<tr><td>10</td><td>35</td><td>LIN</td><td class="pos">65</td><td>18</td><td>4</td><td>3</td><td>開胡</td></tr>
-<tr><td>11</td><td>32</td><td>Zhong</td><td class="pos">65</td><td>16</td><td>3</td><td>2</td><td></td></tr>
-<tr><td>12</td><td>48</td><td>Chow</td><td class="pos">60</td><td>22</td><td>4</td><td>3</td><td>Fung Shui Masters</td></tr>
-<tr><td>13</td><td>23</td><td>SITU</td><td class="pos">55</td><td>13</td><td>3</td><td>3</td><td></td></tr>
-<tr><td>14</td><td>8</td><td>Ip</td><td class="pos">55</td><td>11</td><td>2</td><td>1</td><td></td></tr>
-<tr><td>15</td><td>7</td><td>Yeung</td><td class="pos">55</td><td>10</td><td>3</td><td>2</td><td></td></tr>
-<tr><td>16</td><td>16</td><td>Luo</td><td class="pos">45</td><td>12</td><td>5</td><td>5</td><td>LAM Birdies</td></tr>
-<tr><td>17</td><td>6</td><td>Tam</td><td class="pos">45</td><td>9</td><td>3</td><td>0</td><td>MLM (麻甩佬)</td></tr>
-<tr><td>18</td><td>4</td><td>Sung</td><td class="pos">35</td><td>7</td><td>4</td><td>3</td><td>MLM (麻甩佬)</td></tr>
-<tr><td>19</td><td>14</td><td>Wong</td><td class="pos">25</td><td>9</td><td>4</td><td>3</td><td>LAM Birdies</td></tr>
-<tr><td>20</td><td>11</td><td>Lo</td><td class="pos">20</td><td>19</td><td>4</td><td>3</td><td></td></tr>
-<tr><td>21</td><td>47</td><td>King</td><td class="pos">15</td><td>17</td><td>3</td><td>2</td><td></td></tr>
-<tr><td>22</td><td>18</td><td>luk</td><td class="pos">15</td><td>14</td><td>3</td><td>5</td><td></td></tr>
-<tr><td>23</td><td>102</td><td>Mui</td><td class="pos">10</td><td>1</td><td>1</td><td>0</td><td></td></tr>
-<tr><td>23</td><td>110</td><td>Ng</td><td class="pos">10</td><td>1</td><td>1</td><td>0</td><td>廣玩廣食</td></tr>
-<tr><td>25</td><td>20</td><td>Yang</td><td class="pos">5</td><td>16</td><td>3</td><td>5</td><td></td></tr>
-<tr><td>26</td><td>15</td><td>Hu</td><td class="pos">5</td><td>11</td><td>4</td><td>2</td><td></td></tr>
-<tr><td>27</td><td>19</td><td>Huang</td><td class="zero">0</td><td>9</td><td>4</td><td>2</td><td></td></tr>
-<tr><td>28</td><td>99</td><td>Kim</td><td class="zero">0</td><td>1</td><td>1</td><td>1</td><td>Eighteen Disciples</td></tr>
-<tr><td>28</td><td>101</td><td>Yu</td><td class="zero">0</td><td>1</td><td>1</td><td>1</td><td></td></tr>
-<tr><td>30</td><td>21</td><td>Chiang</td><td class="neg">-5</td><td>13</td><td>5</td><td>4</td><td>Wallaby</td></tr>
-<tr><td>31</td><td>22</td><td>Chan</td><td class="neg">-5</td><td>9</td><td>3</td><td>4</td><td></td></tr>
-<tr><td>32</td><td>55</td><td>Chuen</td><td class="neg">-5</td><td>6</td><td>2</td><td>1</td><td></td></tr>
-<tr><td>33</td><td>29</td><td>Ham</td><td class="neg">-10</td><td>19</td><td>3</td><td>3</td><td></td></tr>
-<tr><td>34</td><td>100</td><td>Ng</td><td class="neg">-10</td><td>1</td><td>1</td><td>2</td><td>Eighteen Disciples</td></tr>
-<tr><td>35</td><td>37</td><td>su</td><td class="neg">-15</td><td>11</td><td>3</td><td>3</td><td></td></tr>
-<tr><td>36</td><td>53</td><td>Fung</td><td class="neg">-15</td><td>1</td><td>1</td><td>0</td><td>開胡</td></tr>
-<tr><td>37</td><td>9</td><td>TSE</td><td class="neg">-20</td><td>14</td><td>6</td><td>1</td><td></td></tr>
-<tr><td>38</td><td>42</td><td>Huang</td><td class="neg">-20</td><td>13</td><td>4</td><td>4</td><td></td></tr>
-<tr><td>39</td><td>41</td><td>Wong</td><td class="neg">-20</td><td>13</td><td>3</td><td>2</td><td>臨時睇波</td></tr>
-<tr><td>40</td><td>25</td><td>Hung</td><td class="neg">-20</td><td>12</td><td>5</td><td>2</td><td></td></tr>
-<tr><td>41</td><td>30</td><td>Michael</td><td class="neg">-20</td><td>11</td><td>6</td><td>3</td><td></td></tr>
-<tr><td>42</td><td>17</td><td>Lei</td><td class="neg">-20</td><td>9</td><td>6</td><td>2</td><td></td></tr>
-<tr><td>43</td><td>107</td><td>Cheung</td><td class="neg">-20</td><td>1</td><td>1</td><td>1</td><td></td></tr>
-<tr><td>44</td><td>38</td><td>Tang</td><td class="neg">-35</td><td>15</td><td>5</td><td>4</td><td></td></tr>
-<tr><td>45</td><td>24</td><td>Chan</td><td class="neg">-45</td><td>13</td><td>5</td><td>4</td><td>Wallaby</td></tr>
-<tr><td>46</td><td>39</td><td>Leung-Astwood</td><td class="neg">-55</td><td>17</td><td>4</td><td>2</td><td></td></tr>
-<tr><td>47</td><td>54</td><td>Chang</td><td class="neg">-55</td><td>5</td><td>1</td><td>2</td><td>開胡</td></tr>
-<tr><td>48</td><td>46</td><td>Wong</td><td class="neg">-65</td><td>20</td><td>6</td><td>2</td><td></td></tr>
-<tr><td>49</td><td>34</td><td>Long</td><td class="neg">-75</td><td>19</td><td>5</td><td>3</td><td>Wok Hei</td></tr>
-<tr><td>50</td><td>28</td><td>Chow</td><td class="neg">-80</td><td>9</td><td>2</td><td>5</td><td></td></tr>
-<tr><td>51</td><td>36</td><td>Lam</td><td class="neg">-85</td><td>15</td><td>3</td><td>3</td><td></td></tr>
-<tr><td>52</td><td>13</td><td>Li</td><td class="neg">-85</td><td>7</td><td>3</td><td>3</td><td></td></tr>
-<tr><td>53</td><td>106</td><td>Thai</td><td class="neg">-100</td><td>0</td><td>0</td><td>1</td><td></td></tr>
-<tr><td>54</td><td>44</td><td>chung</td><td class="neg">-120</td><td>10</td><td>5</td><td>2</td><td></td></tr>
-<tr><td>55</td><td>1</td><td>Yiu</td><td class="neg">-135</td><td>3</td><td>3</td><td>6</td><td></td></tr>
-<tr><td>56</td><td>3</td><td>Wong</td><td class="neg">-145</td><td>3</td><td>3</td><td>1</td><td></td></tr>
-<tr><td>57</td><td>45</td><td>Lee</td><td class="neg">-160</td><td>14</td><td>3</td><td>1</td><td></td></tr>
-<tr><td>58</td><td>50</td><td>Chan</td><td class="neg">-170</td><td>0</td><td>0</td><td>2</td><td></td></tr>
-<tr><td>59</td><td>31</td><td>(Steven)</td><td class="neg">-185</td><td>12</td><td>4</td><td>3</td><td></td></tr>
-<tr><td>60</td><td>27</td><td>Wai</td><td class="neg">-230</td><td>6</td><td>6</td><td>4</td><td></td></tr>
-<tr><td>61</td><td>52</td><td>Lu</td><td class="neg">-230</td><td>1</td><td>1</td><td>1</td><td>開胡</td></tr>
-<tr><td>62</td><td>12</td><td>Wong</td><td class="neg">-280</td><td>13</td><td>2</td><td>6</td><td>LAM Birdies</td></tr>
-<tr><td>63</td><td>5</td><td>Ip</td><td class="neg">-455</td><td>4</td><td>3</td><td>4</td><td></td></tr>
-<tr><td>64</td><td>103</td><td>Pan</td><td class="neg">-590</td><td>1</td><td>1</td><td>6</td><td></td></tr></tbody>
-  </table><h2>Team Leaderboard</h2><table>
-    <thead><tr><th>Rank</th><th>Team Name</th><th>Avg Score</th><th>Members</th></tr></thead>
-    <tbody><tr><td>1</td><td>LAM Birdies</td><td>17.5</td><td>4</td></tr>
-<tr><td>2</td><td>開胡</td><td>-58.8</td><td>4</td></tr></tbody>
-  </table></div><div class="panel" id="panel-1"><table>
+    <tbody><tr><td class="c-rank"><span class="medal medal-1">1</span></td><td class="c-id">10</td><td class="c-name">Meng</td><td class="num score pos">280</td><td class="num">30</td><td class="num">4</td><td class="num">3</td><td class="c-team">LAM Birdies</td><td class="c-qual"></td></tr>
+<tr><td class="c-rank"><span class="medal medal-2">2</span></td><td class="c-id">26</td><td class="c-name">cheuk</td><td class="num score pos">180</td><td class="num">17</td><td class="num">3</td><td class="num">4</td><td class="c-team"><span class='muted'>&mdash;</span></td><td class="c-qual"></td></tr>
+<tr><td class="c-rank"><span class="medal medal-3">3</span></td><td class="c-id">43</td><td class="c-name">Chan</td><td class="num score pos">160</td><td class="num">20</td><td class="num">4</td><td class="num">4</td><td class="c-team"><span class='muted'>&mdash;</span></td><td class="c-qual"></td></tr>
+<tr><td class="c-rank"><span class="rank-plain">4</span></td><td class="c-id">51</td><td class="c-name">Chan</td><td class="num score pos">160</td><td class="num">17</td><td class="num">5</td><td class="num">0</td><td class="c-team"><span class='muted'>&mdash;</span></td><td class="c-qual"></td></tr>
+<tr><td class="c-rank"><span class="rank-plain">5</span></td><td class="c-id">40</td><td class="c-name">Lai</td><td class="num score pos">105</td><td class="num">14</td><td class="num">3</td><td class="num">2</td><td class="c-team"><span class='muted'>&mdash;</span></td><td class="c-qual"></td></tr>
+<tr><td class="c-rank"><span class="rank-plain">6</span></td><td class="c-id">33</td><td class="c-name">Li</td><td class="num score pos">95</td><td class="num">22</td><td class="num">4</td><td class="num">4</td><td class="c-team"><span class='muted'>&mdash;</span></td><td class="c-qual"></td></tr>
+<tr><td class="c-rank"><span class="rank-plain">7</span></td><td class="c-id">2</td><td class="c-name">CHOI</td><td class="num score pos">95</td><td class="num">12</td><td class="num">3</td><td class="num">2</td><td class="c-team"><span class='muted'>&mdash;</span></td><td class="c-qual"></td></tr>
+<tr><td class="c-rank"><span class="rank-plain">8</span></td><td class="c-id">49</td><td class="c-name">Jr.</td><td class="num score pos">90</td><td class="num">9</td><td class="num">1</td><td class="num">1</td><td class="c-team">Fung Shui Masters</td><td class="c-qual"></td></tr>
+<tr><td class="c-rank"><span class="rank-plain">9</span></td><td class="c-id">56</td><td class="c-name">Michael</td><td class="num score pos">75</td><td class="num">7</td><td class="num">2</td><td class="num">0</td><td class="c-team"><span class='muted'>&mdash;</span></td><td class="c-qual"></td></tr>
+<tr><td class="c-rank"><span class="rank-plain">10</span></td><td class="c-id">35</td><td class="c-name">LIN</td><td class="num score pos">65</td><td class="num">18</td><td class="num">4</td><td class="num">3</td><td class="c-team">開胡</td><td class="c-qual"></td></tr>
+<tr><td class="c-rank"><span class="rank-plain">11</span></td><td class="c-id">32</td><td class="c-name">Zhong</td><td class="num score pos">65</td><td class="num">16</td><td class="num">3</td><td class="num">2</td><td class="c-team"><span class='muted'>&mdash;</span></td><td class="c-qual"></td></tr>
+<tr><td class="c-rank"><span class="rank-plain">12</span></td><td class="c-id">48</td><td class="c-name">Chow</td><td class="num score pos">60</td><td class="num">22</td><td class="num">4</td><td class="num">3</td><td class="c-team">Fung Shui Masters</td><td class="c-qual"></td></tr>
+<tr><td class="c-rank"><span class="rank-plain">13</span></td><td class="c-id">23</td><td class="c-name">SITU</td><td class="num score pos">55</td><td class="num">13</td><td class="num">3</td><td class="num">3</td><td class="c-team"><span class='muted'>&mdash;</span></td><td class="c-qual"></td></tr>
+<tr><td class="c-rank"><span class="rank-plain">14</span></td><td class="c-id">8</td><td class="c-name">Ip</td><td class="num score pos">55</td><td class="num">11</td><td class="num">2</td><td class="num">1</td><td class="c-team"><span class='muted'>&mdash;</span></td><td class="c-qual"></td></tr>
+<tr><td class="c-rank"><span class="rank-plain">15</span></td><td class="c-id">7</td><td class="c-name">Yeung</td><td class="num score pos">55</td><td class="num">10</td><td class="num">3</td><td class="num">2</td><td class="c-team"><span class='muted'>&mdash;</span></td><td class="c-qual"></td></tr>
+<tr><td class="c-rank"><span class="rank-plain">16</span></td><td class="c-id">16</td><td class="c-name">Luo</td><td class="num score pos">45</td><td class="num">12</td><td class="num">5</td><td class="num">5</td><td class="c-team">LAM Birdies</td><td class="c-qual"></td></tr>
+<tr><td class="c-rank"><span class="rank-plain">17</span></td><td class="c-id">6</td><td class="c-name">Tam</td><td class="num score pos">45</td><td class="num">9</td><td class="num">3</td><td class="num">0</td><td class="c-team">MLM (麻甩佬)</td><td class="c-qual"></td></tr>
+<tr><td class="c-rank"><span class="rank-plain">18</span></td><td class="c-id">4</td><td class="c-name">Sung</td><td class="num score pos">35</td><td class="num">7</td><td class="num">4</td><td class="num">3</td><td class="c-team">MLM (麻甩佬)</td><td class="c-qual"></td></tr>
+<tr><td class="c-rank"><span class="rank-plain">19</span></td><td class="c-id">14</td><td class="c-name">Wong</td><td class="num score pos">25</td><td class="num">9</td><td class="num">4</td><td class="num">3</td><td class="c-team">LAM Birdies</td><td class="c-qual"></td></tr>
+<tr><td class="c-rank"><span class="rank-plain">20</span></td><td class="c-id">11</td><td class="c-name">Lo</td><td class="num score pos">20</td><td class="num">19</td><td class="num">4</td><td class="num">3</td><td class="c-team"><span class='muted'>&mdash;</span></td><td class="c-qual"></td></tr>
+<tr><td class="c-rank"><span class="rank-plain">21</span></td><td class="c-id">47</td><td class="c-name">King</td><td class="num score pos">15</td><td class="num">17</td><td class="num">3</td><td class="num">2</td><td class="c-team"><span class='muted'>&mdash;</span></td><td class="c-qual"></td></tr>
+<tr><td class="c-rank"><span class="rank-plain">22</span></td><td class="c-id">18</td><td class="c-name">luk</td><td class="num score pos">15</td><td class="num">14</td><td class="num">3</td><td class="num">5</td><td class="c-team"><span class='muted'>&mdash;</span></td><td class="c-qual"></td></tr>
+<tr><td class="c-rank"><span class="rank-plain">23</span></td><td class="c-id">102</td><td class="c-name">Mui</td><td class="num score pos">10</td><td class="num">1</td><td class="num">1</td><td class="num">0</td><td class="c-team"><span class='muted'>&mdash;</span></td><td class="c-qual"></td></tr>
+<tr><td class="c-rank"><span class="rank-plain">23</span></td><td class="c-id">110</td><td class="c-name">Ng</td><td class="num score pos">10</td><td class="num">1</td><td class="num">1</td><td class="num">0</td><td class="c-team">廣玩廣食</td><td class="c-qual"></td></tr>
+<tr><td class="c-rank"><span class="rank-plain">25</span></td><td class="c-id">20</td><td class="c-name">Yang</td><td class="num score pos">5</td><td class="num">16</td><td class="num">3</td><td class="num">5</td><td class="c-team"><span class='muted'>&mdash;</span></td><td class="c-qual"></td></tr>
+<tr><td class="c-rank"><span class="rank-plain">26</span></td><td class="c-id">15</td><td class="c-name">Hu</td><td class="num score pos">5</td><td class="num">11</td><td class="num">4</td><td class="num">2</td><td class="c-team"><span class='muted'>&mdash;</span></td><td class="c-qual"></td></tr>
+<tr><td class="c-rank"><span class="rank-plain">27</span></td><td class="c-id">19</td><td class="c-name">Huang</td><td class="num score zero">0</td><td class="num">9</td><td class="num">4</td><td class="num">2</td><td class="c-team"><span class='muted'>&mdash;</span></td><td class="c-qual"></td></tr>
+<tr><td class="c-rank"><span class="rank-plain">28</span></td><td class="c-id">99</td><td class="c-name">Kim</td><td class="num score zero">0</td><td class="num">1</td><td class="num">1</td><td class="num">1</td><td class="c-team">Eighteen Disciples</td><td class="c-qual"></td></tr>
+<tr><td class="c-rank"><span class="rank-plain">28</span></td><td class="c-id">101</td><td class="c-name">Yu</td><td class="num score zero">0</td><td class="num">1</td><td class="num">1</td><td class="num">1</td><td class="c-team"><span class='muted'>&mdash;</span></td><td class="c-qual"></td></tr>
+<tr><td class="c-rank"><span class="rank-plain">30</span></td><td class="c-id">21</td><td class="c-name">Chiang</td><td class="num score neg">-5</td><td class="num">13</td><td class="num">5</td><td class="num">4</td><td class="c-team">Wallaby</td><td class="c-qual"></td></tr>
+<tr><td class="c-rank"><span class="rank-plain">31</span></td><td class="c-id">22</td><td class="c-name">Chan</td><td class="num score neg">-5</td><td class="num">9</td><td class="num">3</td><td class="num">4</td><td class="c-team"><span class='muted'>&mdash;</span></td><td class="c-qual"></td></tr>
+<tr><td class="c-rank"><span class="rank-plain">32</span></td><td class="c-id">55</td><td class="c-name">Chuen</td><td class="num score neg">-5</td><td class="num">6</td><td class="num">2</td><td class="num">1</td><td class="c-team"><span class='muted'>&mdash;</span></td><td class="c-qual"></td></tr>
+<tr><td class="c-rank"><span class="rank-plain">33</span></td><td class="c-id">29</td><td class="c-name">Ham</td><td class="num score neg">-10</td><td class="num">19</td><td class="num">3</td><td class="num">3</td><td class="c-team"><span class='muted'>&mdash;</span></td><td class="c-qual"></td></tr>
+<tr><td class="c-rank"><span class="rank-plain">34</span></td><td class="c-id">100</td><td class="c-name">Ng</td><td class="num score neg">-10</td><td class="num">1</td><td class="num">1</td><td class="num">2</td><td class="c-team">Eighteen Disciples</td><td class="c-qual"></td></tr>
+<tr><td class="c-rank"><span class="rank-plain">35</span></td><td class="c-id">37</td><td class="c-name">su</td><td class="num score neg">-15</td><td class="num">11</td><td class="num">3</td><td class="num">3</td><td class="c-team"><span class='muted'>&mdash;</span></td><td class="c-qual"></td></tr>
+<tr><td class="c-rank"><span class="rank-plain">36</span></td><td class="c-id">53</td><td class="c-name">Fung</td><td class="num score neg">-15</td><td class="num">1</td><td class="num">1</td><td class="num">0</td><td class="c-team">開胡</td><td class="c-qual"></td></tr>
+<tr><td class="c-rank"><span class="rank-plain">37</span></td><td class="c-id">9</td><td class="c-name">TSE</td><td class="num score neg">-20</td><td class="num">14</td><td class="num">6</td><td class="num">1</td><td class="c-team"><span class='muted'>&mdash;</span></td><td class="c-qual"></td></tr>
+<tr><td class="c-rank"><span class="rank-plain">38</span></td><td class="c-id">42</td><td class="c-name">Huang</td><td class="num score neg">-20</td><td class="num">13</td><td class="num">4</td><td class="num">4</td><td class="c-team"><span class='muted'>&mdash;</span></td><td class="c-qual"></td></tr>
+<tr><td class="c-rank"><span class="rank-plain">39</span></td><td class="c-id">41</td><td class="c-name">Wong</td><td class="num score neg">-20</td><td class="num">13</td><td class="num">3</td><td class="num">2</td><td class="c-team">臨時睇波</td><td class="c-qual"></td></tr>
+<tr><td class="c-rank"><span class="rank-plain">40</span></td><td class="c-id">25</td><td class="c-name">Hung</td><td class="num score neg">-20</td><td class="num">12</td><td class="num">5</td><td class="num">2</td><td class="c-team"><span class='muted'>&mdash;</span></td><td class="c-qual"></td></tr>
+<tr><td class="c-rank"><span class="rank-plain">41</span></td><td class="c-id">30</td><td class="c-name">Michael</td><td class="num score neg">-20</td><td class="num">11</td><td class="num">6</td><td class="num">3</td><td class="c-team"><span class='muted'>&mdash;</span></td><td class="c-qual"></td></tr>
+<tr><td class="c-rank"><span class="rank-plain">42</span></td><td class="c-id">17</td><td class="c-name">Lei</td><td class="num score neg">-20</td><td class="num">9</td><td class="num">6</td><td class="num">2</td><td class="c-team"><span class='muted'>&mdash;</span></td><td class="c-qual"></td></tr>
+<tr><td class="c-rank"><span class="rank-plain">43</span></td><td class="c-id">107</td><td class="c-name">Cheung</td><td class="num score neg">-20</td><td class="num">1</td><td class="num">1</td><td class="num">1</td><td class="c-team"><span class='muted'>&mdash;</span></td><td class="c-qual"></td></tr>
+<tr><td class="c-rank"><span class="rank-plain">44</span></td><td class="c-id">38</td><td class="c-name">Tang</td><td class="num score neg">-35</td><td class="num">15</td><td class="num">5</td><td class="num">4</td><td class="c-team"><span class='muted'>&mdash;</span></td><td class="c-qual"></td></tr>
+<tr><td class="c-rank"><span class="rank-plain">45</span></td><td class="c-id">24</td><td class="c-name">Chan</td><td class="num score neg">-45</td><td class="num">13</td><td class="num">5</td><td class="num">4</td><td class="c-team">Wallaby</td><td class="c-qual"></td></tr>
+<tr><td class="c-rank"><span class="rank-plain">46</span></td><td class="c-id">39</td><td class="c-name">Leung-Astwood</td><td class="num score neg">-55</td><td class="num">17</td><td class="num">4</td><td class="num">2</td><td class="c-team"><span class='muted'>&mdash;</span></td><td class="c-qual"></td></tr>
+<tr><td class="c-rank"><span class="rank-plain">47</span></td><td class="c-id">54</td><td class="c-name">Chang</td><td class="num score neg">-55</td><td class="num">5</td><td class="num">1</td><td class="num">2</td><td class="c-team">開胡</td><td class="c-qual"></td></tr>
+<tr><td class="c-rank"><span class="rank-plain">48</span></td><td class="c-id">46</td><td class="c-name">Wong</td><td class="num score neg">-65</td><td class="num">20</td><td class="num">6</td><td class="num">2</td><td class="c-team"><span class='muted'>&mdash;</span></td><td class="c-qual"></td></tr>
+<tr><td class="c-rank"><span class="rank-plain">49</span></td><td class="c-id">34</td><td class="c-name">Long</td><td class="num score neg">-75</td><td class="num">19</td><td class="num">5</td><td class="num">3</td><td class="c-team">Wok Hei</td><td class="c-qual"></td></tr>
+<tr><td class="c-rank"><span class="rank-plain">50</span></td><td class="c-id">28</td><td class="c-name">Chow</td><td class="num score neg">-80</td><td class="num">9</td><td class="num">2</td><td class="num">5</td><td class="c-team"><span class='muted'>&mdash;</span></td><td class="c-qual"></td></tr>
+<tr><td class="c-rank"><span class="rank-plain">51</span></td><td class="c-id">36</td><td class="c-name">Lam</td><td class="num score neg">-85</td><td class="num">15</td><td class="num">3</td><td class="num">3</td><td class="c-team"><span class='muted'>&mdash;</span></td><td class="c-qual"></td></tr>
+<tr><td class="c-rank"><span class="rank-plain">52</span></td><td class="c-id">13</td><td class="c-name">Li</td><td class="num score neg">-85</td><td class="num">7</td><td class="num">3</td><td class="num">3</td><td class="c-team"><span class='muted'>&mdash;</span></td><td class="c-qual"></td></tr>
+<tr><td class="c-rank"><span class="rank-plain">53</span></td><td class="c-id">106</td><td class="c-name">Thai</td><td class="num score neg">-100</td><td class="num">0</td><td class="num">0</td><td class="num">1</td><td class="c-team"><span class='muted'>&mdash;</span></td><td class="c-qual"></td></tr>
+<tr><td class="c-rank"><span class="rank-plain">54</span></td><td class="c-id">44</td><td class="c-name">chung</td><td class="num score neg">-120</td><td class="num">10</td><td class="num">5</td><td class="num">2</td><td class="c-team"><span class='muted'>&mdash;</span></td><td class="c-qual"></td></tr>
+<tr><td class="c-rank"><span class="rank-plain">55</span></td><td class="c-id">1</td><td class="c-name">Yiu</td><td class="num score neg">-135</td><td class="num">3</td><td class="num">3</td><td class="num">6</td><td class="c-team"><span class='muted'>&mdash;</span></td><td class="c-qual"></td></tr>
+<tr><td class="c-rank"><span class="rank-plain">56</span></td><td class="c-id">3</td><td class="c-name">Wong</td><td class="num score neg">-145</td><td class="num">3</td><td class="num">3</td><td class="num">1</td><td class="c-team"><span class='muted'>&mdash;</span></td><td class="c-qual"></td></tr>
+<tr><td class="c-rank"><span class="rank-plain">57</span></td><td class="c-id">45</td><td class="c-name">Lee</td><td class="num score neg">-160</td><td class="num">14</td><td class="num">3</td><td class="num">1</td><td class="c-team"><span class='muted'>&mdash;</span></td><td class="c-qual"></td></tr>
+<tr><td class="c-rank"><span class="rank-plain">58</span></td><td class="c-id">50</td><td class="c-name">Chan</td><td class="num score neg">-170</td><td class="num">0</td><td class="num">0</td><td class="num">2</td><td class="c-team"><span class='muted'>&mdash;</span></td><td class="c-qual"></td></tr>
+<tr><td class="c-rank"><span class="rank-plain">59</span></td><td class="c-id">31</td><td class="c-name">(Steven)</td><td class="num score neg">-185</td><td class="num">12</td><td class="num">4</td><td class="num">3</td><td class="c-team"><span class='muted'>&mdash;</span></td><td class="c-qual"></td></tr>
+<tr><td class="c-rank"><span class="rank-plain">60</span></td><td class="c-id">27</td><td class="c-name">Wai</td><td class="num score neg">-230</td><td class="num">6</td><td class="num">6</td><td class="num">4</td><td class="c-team"><span class='muted'>&mdash;</span></td><td class="c-qual"></td></tr>
+<tr><td class="c-rank"><span class="rank-plain">61</span></td><td class="c-id">52</td><td class="c-name">Lu</td><td class="num score neg">-230</td><td class="num">1</td><td class="num">1</td><td class="num">1</td><td class="c-team">開胡</td><td class="c-qual"></td></tr>
+<tr><td class="c-rank"><span class="rank-plain">62</span></td><td class="c-id">12</td><td class="c-name">Wong</td><td class="num score neg">-280</td><td class="num">13</td><td class="num">2</td><td class="num">6</td><td class="c-team">LAM Birdies</td><td class="c-qual"></td></tr>
+<tr><td class="c-rank"><span class="rank-plain">63</span></td><td class="c-id">5</td><td class="c-name">Ip</td><td class="num score neg">-455</td><td class="num">4</td><td class="num">3</td><td class="num">4</td><td class="c-team"><span class='muted'>&mdash;</span></td><td class="c-qual"></td></tr>
+<tr><td class="c-rank"><span class="rank-plain">64</span></td><td class="c-id">103</td><td class="c-name">Pan</td><td class="num score neg">-590</td><td class="num">1</td><td class="num">1</td><td class="num">6</td><td class="c-team"><span class='muted'>&mdash;</span></td><td class="c-qual"></td></tr></tbody>
+  </table></div></div><div class="panel" id="panel-1"><div class="empty"><div class="empty-icon">&#128274;</div><div class="empty-title">Preliminary Rounds &middot; 初賽</div><div class="empty-sub">Opens after Oct 19. 96 players advance to this stage.</div></div></div><div class="panel" id="panel-2"><div class="empty"><div class="empty-icon">&#128274;</div><div class="empty-title">Semi-Final &middot; 準決賽</div><div class="empty-sub">Opens after Oct 19. 24 players advance to this stage.</div></div></div><div class="panel" id="panel-3"><div class="empty"><div class="empty-icon">&#128274;</div><div class="empty-title">Final &middot; 決賽</div><div class="empty-sub">Opens after Oct 19. 4 players advance to this stage.</div></div></div>
+    </section>
+
+    <section class="view" id="view-team">
+      <p class="note">Team standings are based on <strong>Qualifying Rounds</strong> results. Average score counts only members who have finished playing, and a team needs at least 4 registered members to be ranked.</p>
+      <div class="table-wrap"><table>
     <thead><tr>
-      <th>Rank<span class="th-zh">排名</span></th>
-      <th>Participant No.<span class="th-zh">參賽編號</span></th>
-      <th>Name<span class="th-zh">姓名</span></th>
-      <th>Total Score<span class="th-zh">總分</span></th>
-      <th>Total Fan<span class="th-zh">累積番數</span></th>
-      <th># of Wins<span class="th-zh">胡牌次數</span></th>
-      <th># of Deal-ins<span class="th-zh">出銃次數</span></th>
-      <th>Team Name<span class="th-zh">團隊名稱</span></th>
+      <th class="c-rank">Rank<span class="th-zh">排名</span></th>
+      <th class="c-team">Team Name<span class="th-zh">團隊名稱</span></th>
+      <th class="num">Avg Score<span class="th-zh">平均分</span></th>
+      <th class="num">Member (Played / Total)<span class="th-zh">隊員（已完成／總數）</span></th>
     </tr></thead>
-    <tbody><tr><td>1</td><td>1</td><td>Yiu</td><td class="pos">50</td><td>10</td><td>1</td><td>0</td><td></td></tr>
-<tr><td>1</td><td>3</td><td>Wong</td><td class="pos">50</td><td>10</td><td>1</td><td>0</td><td></td></tr>
-<tr><td>1</td><td>6</td><td>Tam</td><td class="pos">50</td><td>10</td><td>1</td><td>0</td><td>MLM (麻甩佬)</td></tr>
-<tr><td>1</td><td>7</td><td>Yeung</td><td class="pos">50</td><td>10</td><td>1</td><td>0</td><td></td></tr>
-<tr><td>1</td><td>9</td><td>TSE</td><td class="pos">50</td><td>10</td><td>1</td><td>0</td><td></td></tr>
-<tr><td>1</td><td>11</td><td>Lo</td><td class="pos">50</td><td>10</td><td>1</td><td>0</td><td></td></tr>
-<tr><td>1</td><td>13</td><td>Li</td><td class="pos">50</td><td>10</td><td>1</td><td>0</td><td></td></tr>
-<tr><td>1</td><td>14</td><td>Wong</td><td class="pos">50</td><td>10</td><td>1</td><td>0</td><td>LAM Birdies</td></tr>
-<tr><td>9</td><td>2</td><td>CHOI</td><td class="pos">40</td><td>10</td><td>1</td><td>1</td><td></td></tr>
-<tr><td>9</td><td>5</td><td>Ip</td><td class="pos">40</td><td>10</td><td>1</td><td>1</td><td></td></tr>
-<tr><td>9</td><td>10</td><td>Meng</td><td class="pos">40</td><td>10</td><td>1</td><td>1</td><td>LAM Birdies</td></tr>
-<tr><td>9</td><td>15</td><td>Hu</td><td class="pos">40</td><td>10</td><td>1</td><td>1</td><td></td></tr>
-<tr><td>13</td><td>4</td><td>Sung</td><td class="neg">-140</td><td>1</td><td>1</td><td>0</td><td>MLM (麻甩佬)</td></tr>
-<tr><td>13</td><td>8</td><td>Ip</td><td class="neg">-140</td><td>1</td><td>1</td><td>0</td><td></td></tr>
-<tr><td>13</td><td>12</td><td>Wong</td><td class="neg">-140</td><td>1</td><td>1</td><td>0</td><td>LAM Birdies</td></tr>
-<tr><td>13</td><td>16</td><td>Luo</td><td class="neg">-140</td><td>1</td><td>1</td><td>0</td><td>LAM Birdies</td></tr></tbody>
-  </table></div><div class="panel" id="panel-2"><table>
-    <thead><tr>
-      <th>Rank<span class="th-zh">排名</span></th>
-      <th>Participant No.<span class="th-zh">參賽編號</span></th>
-      <th>Name<span class="th-zh">姓名</span></th>
-      <th>Total Score<span class="th-zh">總分</span></th>
-      <th>Total Fan<span class="th-zh">累積番數</span></th>
-      <th># of Wins<span class="th-zh">胡牌次數</span></th>
-      <th># of Deal-ins<span class="th-zh">出銃次數</span></th>
-      <th>Team Name<span class="th-zh">團隊名稱</span></th>
-    </tr></thead>
-    <tbody><tr><td>1</td><td>1</td><td>Yiu</td><td class="pos">50</td><td>10</td><td>1</td><td>0</td><td></td></tr>
-<tr><td>1</td><td>3</td><td>Wong</td><td class="pos">50</td><td>10</td><td>1</td><td>0</td><td></td></tr>
-<tr><td>1</td><td>6</td><td>Tam</td><td class="pos">50</td><td>10</td><td>1</td><td>0</td><td>MLM (麻甩佬)</td></tr>
-<tr><td>1</td><td>7</td><td>Yeung</td><td class="pos">50</td><td>10</td><td>1</td><td>0</td><td></td></tr>
-<tr><td>1</td><td>9</td><td>TSE</td><td class="pos">50</td><td>10</td><td>1</td><td>0</td><td></td></tr>
-<tr><td>1</td><td>11</td><td>Lo</td><td class="pos">50</td><td>10</td><td>1</td><td>0</td><td></td></tr>
-<tr><td>1</td><td>13</td><td>Li</td><td class="pos">50</td><td>10</td><td>1</td><td>0</td><td></td></tr>
-<tr><td>1</td><td>14</td><td>Wong</td><td class="pos">50</td><td>10</td><td>1</td><td>0</td><td>LAM Birdies</td></tr>
-<tr><td>9</td><td>2</td><td>CHOI</td><td class="pos">40</td><td>10</td><td>1</td><td>1</td><td></td></tr>
-<tr><td>9</td><td>5</td><td>Ip</td><td class="pos">40</td><td>10</td><td>1</td><td>1</td><td></td></tr>
-<tr><td>9</td><td>10</td><td>Meng</td><td class="pos">40</td><td>10</td><td>1</td><td>1</td><td>LAM Birdies</td></tr>
-<tr><td>9</td><td>15</td><td>Hu</td><td class="pos">40</td><td>10</td><td>1</td><td>1</td><td></td></tr>
-<tr><td>13</td><td>4</td><td>Sung</td><td class="neg">-140</td><td>1</td><td>1</td><td>0</td><td>MLM (麻甩佬)</td></tr>
-<tr><td>13</td><td>8</td><td>Ip</td><td class="neg">-140</td><td>1</td><td>1</td><td>0</td><td></td></tr>
-<tr><td>13</td><td>12</td><td>Wong</td><td class="neg">-140</td><td>1</td><td>1</td><td>0</td><td>LAM Birdies</td></tr>
-<tr><td>13</td><td>16</td><td>Luo</td><td class="neg">-140</td><td>1</td><td>1</td><td>0</td><td>LAM Birdies</td></tr></tbody>
-  </table></div><div class="panel" id="panel-3"><table>
-    <thead><tr>
-      <th>Rank<span class="th-zh">排名</span></th>
-      <th>Participant No.<span class="th-zh">參賽編號</span></th>
-      <th>Name<span class="th-zh">姓名</span></th>
-      <th>Total Score<span class="th-zh">總分</span></th>
-      <th>Total Fan<span class="th-zh">累積番數</span></th>
-      <th># of Wins<span class="th-zh">胡牌次數</span></th>
-      <th># of Deal-ins<span class="th-zh">出銃次數</span></th>
-      <th>Team Name<span class="th-zh">團隊名稱</span></th>
-    </tr></thead>
-    <tbody><tr><td>1</td><td>1</td><td>Yiu</td><td class="pos">50</td><td>10</td><td>1</td><td>0</td><td></td></tr>
-<tr><td>1</td><td>3</td><td>Wong</td><td class="pos">50</td><td>10</td><td>1</td><td>0</td><td></td></tr>
-<tr><td>1</td><td>6</td><td>Tam</td><td class="pos">50</td><td>10</td><td>1</td><td>0</td><td>MLM (麻甩佬)</td></tr>
-<tr><td>1</td><td>7</td><td>Yeung</td><td class="pos">50</td><td>10</td><td>1</td><td>0</td><td></td></tr>
-<tr><td>1</td><td>9</td><td>TSE</td><td class="pos">50</td><td>10</td><td>1</td><td>0</td><td></td></tr>
-<tr><td>1</td><td>11</td><td>Lo</td><td class="pos">50</td><td>10</td><td>1</td><td>0</td><td></td></tr>
-<tr><td>1</td><td>13</td><td>Li</td><td class="pos">50</td><td>10</td><td>1</td><td>0</td><td></td></tr>
-<tr><td>1</td><td>14</td><td>Wong</td><td class="pos">50</td><td>10</td><td>1</td><td>0</td><td>LAM Birdies</td></tr>
-<tr><td>9</td><td>2</td><td>CHOI</td><td class="pos">40</td><td>10</td><td>1</td><td>1</td><td></td></tr>
-<tr><td>9</td><td>5</td><td>Ip</td><td class="pos">40</td><td>10</td><td>1</td><td>1</td><td></td></tr>
-<tr><td>9</td><td>10</td><td>Meng</td><td class="pos">40</td><td>10</td><td>1</td><td>1</td><td>LAM Birdies</td></tr>
-<tr><td>9</td><td>15</td><td>Hu</td><td class="pos">40</td><td>10</td><td>1</td><td>1</td><td></td></tr>
-<tr><td>13</td><td>4</td><td>Sung</td><td class="neg">-140</td><td>1</td><td>1</td><td>0</td><td>MLM (麻甩佬)</td></tr>
-<tr><td>13</td><td>8</td><td>Ip</td><td class="neg">-140</td><td>1</td><td>1</td><td>0</td><td></td></tr>
-<tr><td>13</td><td>12</td><td>Wong</td><td class="neg">-140</td><td>1</td><td>1</td><td>0</td><td>LAM Birdies</td></tr>
-<tr><td>13</td><td>16</td><td>Luo</td><td class="neg">-140</td><td>1</td><td>1</td><td>0</td><td>LAM Birdies</td></tr></tbody>
+    <tbody><tr class=""><td class="c-rank"><span class="medal medal-1">1</span></td><td class="c-team">Fung Shui Masters</td><td class="num score pos">75.0</td><td class="num members">2 <span class="muted">/ 4</span></td></tr>
+<tr class=""><td class="c-rank"><span class="medal medal-2">2</span></td><td class="c-team">LAM Birdies</td><td class="num score pos">17.5</td><td class="num members">4 <span class="muted">/ 4</span></td></tr>
+<tr class=""><td class="c-rank"><span class="medal medal-3">3</span></td><td class="c-team">廣玩廣食</td><td class="num score pos">10.0</td><td class="num members">1 <span class="muted">/ 4</span></td></tr>
+<tr class=""><td class="c-rank"><span class="rank-plain">4</span></td><td class="c-team">Eighteen Disciples</td><td class="num score neg">-5.0</td><td class="num members">2 <span class="muted">/ 4</span></td></tr>
+<tr class=""><td class="c-rank"><span class="rank-plain">5</span></td><td class="c-team">Wallaby</td><td class="num score neg">-25.0</td><td class="num members">2 <span class="muted">/ 4</span></td></tr>
+<tr class=""><td class="c-rank"><span class="rank-plain">6</span></td><td class="c-team">開胡</td><td class="num score neg">-58.8</td><td class="num members">4 <span class="muted">/ 4</span></td></tr>
+<tr class=""><td class="c-rank"><span class="rank-plain">7</span></td><td class="c-team">Wok Hei</td><td class="num score neg">-75.0</td><td class="num members">1 <span class="muted">/ 12</span></td></tr>
+<tr class="unranked"><td class="c-rank"><span class="rank-plain muted">&mdash;</span></td><td class="c-team">JAKT Crew</td><td class="num score zero">&mdash;</td><td class="num members">0 <span class="muted">/ 8</span></td></tr>
+<tr class="unranked"><td class="c-rank"><span class="rank-plain muted">&mdash;</span></td><td class="c-team">Keep It PG</td><td class="num score zero">&mdash;</td><td class="num members">0 <span class="muted">/ 10</span></td></tr>
+<tr class="unranked"><td class="c-rank"><span class="rank-plain muted">&mdash;</span></td><td class="c-team">Lucky Winds</td><td class="num score zero">&mdash;</td><td class="num members">0 <span class="muted">/ 4</span></td></tr>
+<tr class="unranked"><td class="c-rank"><span class="rank-plain muted">&mdash;</span></td><td class="c-team">Mahjong Mommys</td><td class="num score zero">&mdash;</td><td class="num members">0 <span class="muted">/ 5</span></td></tr>
+<tr class="unranked"><td class="c-rank"><span class="rank-plain muted">&mdash;</span></td><td class="c-team">Swaggin Wagon</td><td class="num score zero">&mdash;</td><td class="num members">0 <span class="muted">/ 5</span></td></tr>
+<tr class="unranked"><td class="c-rank"><span class="rank-plain muted">&mdash;</span></td><td class="c-team">The Three Dragons Mahjong Club</td><td class="num score zero">&mdash;</td><td class="num members">0 <span class="muted">/ 4</span></td></tr>
+<tr class="unranked"><td class="c-rank"><span class="rank-plain muted">&mdash;</span></td><td class="c-team">Winner</td><td class="num score zero">&mdash;</td><td class="num members">0 <span class="muted">/ 5</span></td></tr>
+<tr class="unranked"><td class="c-rank"><span class="rank-plain muted">&mdash;</span></td><td class="c-team">多多多巴胺</td><td class="num score zero">&mdash;</td><td class="num members">0 <span class="muted">/ 4</span></td></tr>
+<tr class="unranked"><td class="c-rank"><span class="rank-plain muted">&mdash;</span></td><td class="c-team">蕃茄醬牛腩麵小隊</td><td class="num score zero">&mdash;</td><td class="num members">0 <span class="muted">/ 5</span></td></tr></tbody>
   </table></div>
+    </section>
+
+    <div class="meta">Last updated: Sep 17, 2026 1:11 PM PDT</div>
+  </div>
+
   <script>
+    // Individual / Team switch
+    document.querySelectorAll('.vt').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.vt').forEach(b => b.classList.remove('active'));
+        document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+        btn.classList.add('active');
+        document.getElementById(btn.dataset.view).classList.add('active');
+        setTimeout(reportHeight, 0);
+      });
+    });
+
+    // Stage tabs (locked ones are disabled, so they never fire)
     document.querySelectorAll('.tab').forEach(btn => {
       btn.addEventListener('click', () => {
+        if (btn.disabled) return;
         document.querySelectorAll('.tab').forEach(b => b.classList.remove('active'));
         document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
         btn.classList.add('active');
         document.getElementById(btn.dataset.panel).classList.add('active');
+        setTimeout(reportHeight, 0);
       });
     });
 
@@ -208,7 +323,6 @@
     }
     window.addEventListener('load', reportHeight);
     window.addEventListener('resize', reportHeight);
-    document.querySelectorAll('.tab').forEach(btn => btn.addEventListener('click', () => setTimeout(reportHeight, 0)));
     new ResizeObserver(reportHeight).observe(document.body);
   </script>
 </body></html>
